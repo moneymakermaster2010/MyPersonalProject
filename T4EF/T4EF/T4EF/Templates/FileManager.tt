@@ -1,0 +1,19 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ output extension=".txt" #>
+<#@ include file="EF.Utility.CS.ttinclude"#>
+
+<#
+  var fileManager = EntityFrameworkTemplateFileManager.Create(this);
+  fileManager.StartHeader();
+#>
+-- This line is a common header to use in every generated file. 
+<# 
+  for(var i = 0; i < 3; i++) 
+  {
+    fileManager.StartNewFile("file_" + i.ToString() + ".txt");
+	#>
+		Here is some content for file # <#= i.ToString() #>
+	<#
+  }
+  fileManager.Process();
+#>

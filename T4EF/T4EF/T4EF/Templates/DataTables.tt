@@ -1,0 +1,39 @@
+﻿<#@ template language="C#4.0" #>
+<#@ assembly name="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+<# 	
+	foreach(var name in GetTableNames())
+	{
+#>
+		public class <#= name #>
+		{
+		
+		}
+		
+<#  
+	} 
+#>
+<#+
+IEnumerable<string> GetTableNames() 
+{
+	var connectionString = @"Data Source=.\sqlexpress;Initial Catalog=moviereviews;Integrated Security=True";
+	var commandText = "select table_name as TableName from INFORMATION_SCHEMA.Tables";
+	        
+	using(var connection = new SqlConnection(connectionString))		
+	{
+		connection.Open();
+		using(var command = new SqlCommand(commandText, connection))
+		using(var reader = command.ExecuteReader())
+		{
+			while (reader.Read())
+			{												
+				yield return reader["TableName"] as string;
+			}	
+		}
+	}
+}
+
+#>

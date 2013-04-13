@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="PowerTools">
+</Property><Property Name="Solution File" Value="C:\Documents and Settings\Suresh\My Documents\Visual Studio 2010\Projects\WebApplication1\EntityFramework\PowerTools.sln">
+</Property><Property Name="Date" Value="Saturday, April 06, 2013">
+</Property><Property Name="Time" Value="23:40 PM">
+</Property></Properties><Event ErrorLevel="0" Project="PowerTools" Source="src\PowerTools\PowerTools.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="PowerTools" Source="src\PowerTools\PowerTools.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="PowerTools.Test" Source="test\PowerTools.Test\PowerTools.Test.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="PowerTools.Test" Source="test\PowerTools.Test\PowerTools.Test.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="2" Project="PowerTools" Source="src\PowerTools\PowerTools.csproj" Description="The project file 'C:\Documents and Settings\Suresh\My Documents\Visual Studio 2010\Projects\WebApplication1\EntityFramework\src\PowerTools\PowerTools.csproj' cannot be opened.&#xA;&#xA;The project type is not supported by this installation.">
+</Event><Event ErrorLevel="0" Project="" Source="PowerTools.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="PowerTools.sln" Description="Converted">
+</Event></UpgradeLog>

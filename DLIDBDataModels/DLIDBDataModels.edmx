@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DownloadsFromDLIDatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="DownloadsFromDLIDatabaseModelStoreContainer">
+          <EntitySet Name="Book_Detail" EntityType="DownloadsFromDLIDatabaseModel.Store.Book_Detail" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Book_Page_Content" EntityType="DownloadsFromDLIDatabaseModel.Store.Book_Page_Content" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="DownloadsFromDLIDatabaseModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__Book_Deta__Creat__3D5E1FD2" Association="DownloadsFromDLIDatabaseModel.Store.FK__Book_Deta__Creat__3D5E1FD2">
+            <End Role="User" EntitySet="User" />
+            <End Role="Book_Detail" EntitySet="Book_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Book_Deta__Updat__3E52440B" Association="DownloadsFromDLIDatabaseModel.Store.FK__Book_Deta__Updat__3E52440B">
+            <End Role="User" EntitySet="User" />
+            <End Role="Book_Detail" EntitySet="Book_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Book_Page__BookI__45F365D3" Association="DownloadsFromDLIDatabaseModel.Store.FK__Book_Page__BookI__45F365D3">
+            <End Role="Book_Detail" EntitySet="Book_Detail" />
+            <End Role="Book_Page_Content" EntitySet="Book_Page_Content" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Book_Page__Creat__46E78A0C" Association="DownloadsFromDLIDatabaseModel.Store.FK__Book_Page__Creat__46E78A0C">
+            <End Role="User" EntitySet="User" />
+            <End Role="Book_Page_Content" EntitySet="Book_Page_Content" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Book_Page__Updat__47DBAE45" Association="DownloadsFromDLIDatabaseModel.Store.FK__Book_Page__Updat__47DBAE45">
+            <End Role="User" EntitySet="User" />
+            <End Role="Book_Page_Content" EntitySet="Book_Page_Content" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Book_Detail">
+          <Key>
+            <PropertyRef Name="Book_DetailID" />
+          </Key>
+          <Property Name="Book_DetailID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BookName" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="Author" Type="varchar" MaxLength="1000" />
+          <Property Name="BookDescription" Type="varchar" MaxLength="1000" />
+          <Property Name="BookSourceURL" Type="varchar" MaxLength="1000" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="Book_Page_Content">
+          <Key>
+            <PropertyRef Name="Book_Page_ContentID" />
+          </Key>
+          <Property Name="Book_Page_ContentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BookID" Type="int" Nullable="false" />
+          <Property Name="PageNumber" Type="bigint" Nullable="false" />
+          <Property Name="Content" Type="varbinary" MaxLength="1" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="Active" Type="bit" />
+        </EntityType>
+        <Association Name="FK__Book_Deta__Creat__3D5E1FD2">
+          <End Role="User" Type="DownloadsFromDLIDatabaseModel.Store.User" Multiplicity="0..1" />
+          <End Role="Book_Detail" Type="DownloadsFromDLIDatabaseModel.Store.Book_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Book_Detail">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Book_Deta__Updat__3E52440B">
+          <End Role="User" Type="DownloadsFromDLIDatabaseModel.Store.User" Multiplicity="0..1" />
+          <End Role="Book_Detail" Type="DownloadsFromDLIDatabaseModel.Store.Book_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Book_Detail">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Book_Page__BookI__45F365D3">
+          <End Role="Book_Detail" Type="DownloadsFromDLIDatabaseModel.Store.Book_Detail" Multiplicity="1" />
+          <End Role="Book_Page_Content" Type="DownloadsFromDLIDatabaseModel.Store.Book_Page_Content" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book_Detail">
+              <PropertyRef Name="Book_DetailID" />
+            </Principal>
+            <Dependent Role="Book_Page_Content">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Book_Page__Creat__46E78A0C">
+          <End Role="User" Type="DownloadsFromDLIDatabaseModel.Store.User" Multiplicity="0..1" />
+          <End Role="Book_Page_Content" Type="DownloadsFromDLIDatabaseModel.Store.Book_Page_Content" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Book_Page_Content">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Book_Page__Updat__47DBAE45">
+          <End Role="User" Type="DownloadsFromDLIDatabaseModel.Store.User" Multiplicity="0..1" />
+          <End Role="Book_Page_Content" Type="DownloadsFromDLIDatabaseModel.Store.Book_Page_Content" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Book_Page_Content">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DownloadsFromDLIDatabaseModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="DownloadsFromDLIDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Book_Detail" EntityType="DownloadsFromDLIDatabaseModel.Book_Detail" />
+          <EntitySet Name="Book_Page_Content" EntityType="DownloadsFromDLIDatabaseModel.Book_Page_Content" />
+          <EntitySet Name="Users" EntityType="DownloadsFromDLIDatabaseModel.User" />
+          <AssociationSet Name="FK__Book_Deta__Creat__3D5E1FD2" Association="DownloadsFromDLIDatabaseModel.FK__Book_Deta__Creat__3D5E1FD2">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Book_Detail" EntitySet="Book_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Book_Deta__Updat__3E52440B" Association="DownloadsFromDLIDatabaseModel.FK__Book_Deta__Updat__3E52440B">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Book_Detail" EntitySet="Book_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Book_Page__BookI__45F365D3" Association="DownloadsFromDLIDatabaseModel.FK__Book_Page__BookI__45F365D3">
+            <End Role="Book_Detail" EntitySet="Book_Detail" />
+            <End Role="Book_Page_Content" EntitySet="Book_Page_Content" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Book_Page__Creat__46E78A0C" Association="DownloadsFromDLIDatabaseModel.FK__Book_Page__Creat__46E78A0C">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Book_Page_Content" EntitySet="Book_Page_Content" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Book_Page__Updat__47DBAE45" Association="DownloadsFromDLIDatabaseModel.FK__Book_Page__Updat__47DBAE45">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Book_Page_Content" EntitySet="Book_Page_Content" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Book_Detail">
+          <Key>
+            <PropertyRef Name="Book_DetailID" />
+          </Key>
+          <Property Name="Book_DetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookName" Type="String" Nullable="false" MaxLength="500" Unicode="false" FixedLength="false" />
+          <Property Name="Author" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="BookDescription" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="BookSourceURL" Type="String" MaxLength="1000" Unicode="false" FixedLength="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" />
+          <Property Name="LastModifiedDate" Type="DateTime" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="CreatedByUser" Relationship="DownloadsFromDLIDatabaseModel.FK__Book_Deta__Creat__3D5E1FD2" FromRole="Book_Detail" ToRole="User" />
+          <NavigationProperty Name="UpdatedByUser" Relationship="DownloadsFromDLIDatabaseModel.FK__Book_Deta__Updat__3E52440B" FromRole="Book_Detail" ToRole="User" />
+          <NavigationProperty Name="Book_Page_Content" Relationship="DownloadsFromDLIDatabaseModel.FK__Book_Page__BookI__45F365D3" FromRole="Book_Detail" ToRole="Book_Page_Content" />
+        </EntityType>
+        <EntityType Name="Book_Page_Content">
+          <Key>
+            <PropertyRef Name="Book_Page_ContentID" />
+          </Key>
+          <Property Name="Book_Page_ContentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookID" Type="Int32" Nullable="false" />
+          <Property Name="PageNumber" Type="Int64" Nullable="false" />
+          <Property Name="Content" Type="Binary" MaxLength="1" FixedLength="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" />
+          <Property Name="LastModifiedDate" Type="DateTime" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="Book_Detail" Relationship="DownloadsFromDLIDatabaseModel.FK__Book_Page__BookI__45F365D3" FromRole="Book_Page_Content" ToRole="Book_Detail" />
+          <NavigationProperty Name="CreatedByUser" Relationship="DownloadsFromDLIDatabaseModel.FK__Book_Page__Creat__46E78A0C" FromRole="Book_Page_Content" ToRole="User" />
+          <NavigationProperty Name="UpdatedByUser" Relationship="DownloadsFromDLIDatabaseModel.FK__Book_Page__Updat__47DBAE45" FromRole="Book_Page_Content" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="CreatedDate" Type="DateTime" />
+          <Property Name="LastModifiedDate" Type="DateTime" />
+          <Property Name="Active" Type="Boolean" />
+          <NavigationProperty Name="CreatedByBook_Detail" Relationship="DownloadsFromDLIDatabaseModel.FK__Book_Deta__Creat__3D5E1FD2" FromRole="User" ToRole="Book_Detail" />
+          <NavigationProperty Name="UpdatedByBook_Detail" Relationship="DownloadsFromDLIDatabaseModel.FK__Book_Deta__Updat__3E52440B" FromRole="User" ToRole="Book_Detail" />
+          <NavigationProperty Name="CreatedByBook_Page_Content" Relationship="DownloadsFromDLIDatabaseModel.FK__Book_Page__Creat__46E78A0C" FromRole="User" ToRole="Book_Page_Content" />
+          <NavigationProperty Name="UpdatedByBook_Page_Content" Relationship="DownloadsFromDLIDatabaseModel.FK__Book_Page__Updat__47DBAE45" FromRole="User" ToRole="Book_Page_Content" />
+        </EntityType>
+        <Association Name="FK__Book_Deta__Creat__3D5E1FD2">
+          <End Role="User" Type="DownloadsFromDLIDatabaseModel.User" Multiplicity="0..1" />
+          <End Role="Book_Detail" Type="DownloadsFromDLIDatabaseModel.Book_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Book_Detail">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Book_Deta__Updat__3E52440B">
+          <End Role="User" Type="DownloadsFromDLIDatabaseModel.User" Multiplicity="0..1" />
+          <End Role="Book_Detail" Type="DownloadsFromDLIDatabaseModel.Book_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Book_Detail">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Book_Page__BookI__45F365D3">
+          <End Role="Book_Detail" Type="DownloadsFromDLIDatabaseModel.Book_Detail" Multiplicity="1" />
+          <End Role="Book_Page_Content" Type="DownloadsFromDLIDatabaseModel.Book_Page_Content" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book_Detail">
+              <PropertyRef Name="Book_DetailID" />
+            </Principal>
+            <Dependent Role="Book_Page_Content">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Book_Page__Creat__46E78A0C">
+          <End Role="User" Type="DownloadsFromDLIDatabaseModel.User" Multiplicity="0..1" />
+          <End Role="Book_Page_Content" Type="DownloadsFromDLIDatabaseModel.Book_Page_Content" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Book_Page_Content">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Book_Page__Updat__47DBAE45">
+          <End Role="User" Type="DownloadsFromDLIDatabaseModel.User" Multiplicity="0..1" />
+          <End Role="Book_Page_Content" Type="DownloadsFromDLIDatabaseModel.Book_Page_Content" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Book_Page_Content">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DownloadsFromDLIDatabaseModelStoreContainer" CdmEntityContainer="DownloadsFromDLIDatabaseEntities">
+          <EntitySetMapping Name="Book_Detail"><EntityTypeMapping TypeName="DownloadsFromDLIDatabaseModel.Book_Detail"><MappingFragment StoreEntitySet="Book_Detail">
+            <ScalarProperty Name="Book_DetailID" ColumnName="Book_DetailID" />
+            <ScalarProperty Name="BookName" ColumnName="BookName" />
+            <ScalarProperty Name="Author" ColumnName="Author" />
+            <ScalarProperty Name="BookDescription" ColumnName="BookDescription" />
+            <ScalarProperty Name="BookSourceURL" ColumnName="BookSourceURL" />
+            <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+            <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+            <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+            <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+            <ScalarProperty Name="Active" ColumnName="Active" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Book_Page_Content"><EntityTypeMapping TypeName="DownloadsFromDLIDatabaseModel.Book_Page_Content"><MappingFragment StoreEntitySet="Book_Page_Content">
+            <ScalarProperty Name="Book_Page_ContentID" ColumnName="Book_Page_ContentID" />
+            <ScalarProperty Name="BookID" ColumnName="BookID" />
+            <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
+            <ScalarProperty Name="Content" ColumnName="Content" />
+            <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+            <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+            <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+            <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+            <ScalarProperty Name="Active" ColumnName="Active" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Users"><EntityTypeMapping TypeName="DownloadsFromDLIDatabaseModel.User"><MappingFragment StoreEntitySet="User">
+            <ScalarProperty Name="UserID" ColumnName="UserID" />
+            <ScalarProperty Name="UserName" ColumnName="UserName" />
+            <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+            <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+            <ScalarProperty Name="Active" ColumnName="Active" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="DLIDBDataModels" ZoomLevel="75">
+        <EntityTypeShape EntityType="DownloadsFromDLIDatabaseModel.Book_Detail" Width="1.5" PointX="3" PointY="1" Height="3.0714322916666661" IsExpanded="true" />
+        <EntityTypeShape EntityType="DownloadsFromDLIDatabaseModel.Book_Page_Content" Width="1.5" PointX="5.25" PointY="1" Height="2.9070849609374996" IsExpanded="true" />
+        <EntityTypeShape EntityType="DownloadsFromDLIDatabaseModel.User" Width="1.5" PointX="0.75" PointY="1.25" Height="2.4140429687499996" IsExpanded="true" />
+        <AssociationConnector Association="DownloadsFromDLIDatabaseModel.FK__Book_Deta__Creat__3D5E1FD2" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.457021484375" />
+          <ConnectorPoint PointX="3" PointY="2.457021484375" />
+        </AssociationConnector>
+        <AssociationConnector Association="DownloadsFromDLIDatabaseModel.FK__Book_Deta__Updat__3E52440B" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.7910107421875" />
+          <ConnectorPoint PointX="3" PointY="1.7910107421875" />
+        </AssociationConnector>
+        <AssociationConnector Association="DownloadsFromDLIDatabaseModel.FK__Book_Page__BookI__45F365D3" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="2.45354248046875" />
+          <ConnectorPoint PointX="5.25" PointY="2.45354248046875" />
+        </AssociationConnector>
+        <AssociationConnector Association="DownloadsFromDLIDatabaseModel.FK__Book_Page__Creat__46E78A0C" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.2765374615384617" />
+          <ConnectorPoint PointX="2.5" PointY="1.0265374615384619" />
+          <ConnectorPoint PointX="2.5" PointY="0.375" />
+          <ConnectorPoint PointX="4.6007692307692309" PointY="0.375" />
+          <ConnectorPoint PointX="5.25" PointY="1.0242307692307691" />
+        </AssociationConnector>
+        <AssociationConnector Association="DownloadsFromDLIDatabaseModel.FK__Book_Page__Updat__47DBAE45" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.2580759230769232" />
+          <ConnectorPoint PointX="2.65625" PointY="0.85182592307692317" />
+          <ConnectorPoint PointX="2.65625" PointY="0.625" />
+          <ConnectorPoint PointX="4.901537461538461" PointY="0.625" />
+          <ConnectorPoint PointX="5.276537461538461" PointY="1" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

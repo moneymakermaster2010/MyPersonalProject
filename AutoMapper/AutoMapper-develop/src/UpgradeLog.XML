@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="AutoMapper">
+</Property><Property Name="Solution File" Value="C:\Documents and Settings\Suresh\My Documents\Visual Studio 2010\Projects\WebApplication1\AutoMapper\AutoMapper-develop\src\AutoMapper.sln">
+</Property><Property Name="Date" Value="Tuesday, April 09, 2013">
+</Property><Property Name="Time" Value="9:54 AM">
+</Property></Properties><Event ErrorLevel="0" Project="UnitTests.Net4" Source="UnitTests\UnitTests.Net4.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="UnitTests.Net4" Source="UnitTests\UnitTests.Net4.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="AutoMapper" Source="AutoMapper\AutoMapper.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="AutoMapper" Source="AutoMapper\AutoMapper.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="AutoMapperSamples" Source="AutoMapperSamples\AutoMapperSamples.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="AutoMapperSamples" Source="AutoMapperSamples\AutoMapperSamples.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="Benchmark" Source="Benchmark\Benchmark.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="Benchmark" Source="Benchmark\Benchmark.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="AutoMapper.Net4" Source="AutoMapper\AutoMapper.Net4.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="AutoMapper.Net4" Source="AutoMapper\AutoMapper.Net4.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="AutoMapper.SL4" Source="AutoMapper\AutoMapper.SL4.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="AutoMapper.SL4" Source="AutoMapper\AutoMapper.SL4.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="AutoMapper.WinRT" Source="AutoMapper\AutoMapper.WinRT.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="AutoMapper.WinRT" Source="AutoMapper\AutoMapper.WinRT.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="AutoMapper.WP75" Source="AutoMapper\AutoMapper.WP75.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="AutoMapper.WP75" Source="AutoMapper\AutoMapper.WP75.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="UnitTests.SL4" Source="UnitTests\UnitTests.SL4.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="UnitTests.SL4" Source="UnitTests\UnitTests.SL4.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="UnitTests.WinRT" Source="UnitTests\UnitTests.WinRT.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="UnitTests.WinRT" Source="UnitTests\UnitTests.WinRT.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="0" Project="UnitTests.WP8" Source="UnitTests\UnitTests.WP8.csproj" Description="The project file does not require conversion.">
+</Event><Event ErrorLevel="3" Project="UnitTests.WP8" Source="UnitTests\UnitTests.WP8.csproj" Description="No Conversion Required">
+</Event><Event ErrorLevel="2" Project="AutoMapper" Source="AutoMapper\AutoMapper.csproj" Description="The project file 'C:\Documents and Settings\Suresh\My Documents\Visual Studio 2010\Projects\WebApplication1\AutoMapper\AutoMapper-develop\src\AutoMapper\AutoMapper.csproj' cannot be opened.&#xA;&#xA;The project type is not supported by this installation.">
+</Event><Event ErrorLevel="2" Project="AutoMapper.SL4" Source="AutoMapper\AutoMapper.SL4.csproj" Description="">
+</Event><Event ErrorLevel="2" Project="AutoMapper.WinRT" Source="AutoMapper\AutoMapper.WinRT.csproj" Description="The project file 'C:\Documents and Settings\Suresh\My Documents\Visual Studio 2010\Projects\WebApplication1\AutoMapper\AutoMapper-develop\src\AutoMapper\AutoMapper.WinRT.csproj' cannot be opened.&#xA;&#xA;The project type is not supported by this installation.">
+</Event><Event ErrorLevel="2" Project="AutoMapper.WP75" Source="AutoMapper\AutoMapper.WP75.csproj" Description="The project file 'C:\Documents and Settings\Suresh\My Documents\Visual Studio 2010\Projects\WebApplication1\AutoMapper\AutoMapper-develop\src\AutoMapper\AutoMapper.WP75.csproj' cannot be opened.&#xA;&#xA;The project type is not supported by this installation.">
+</Event><Event ErrorLevel="2" Project="UnitTests.SL4" Source="UnitTests\UnitTests.SL4.csproj" Description="">
+</Event><Event ErrorLevel="2" Project="UnitTests.WinRT" Source="UnitTests\UnitTests.WinRT.csproj" Description="The project file 'C:\Documents and Settings\Suresh\My Documents\Visual Studio 2010\Projects\WebApplication1\AutoMapper\AutoMapper-develop\src\UnitTests\UnitTests.WinRT.csproj' cannot be opened.&#xA;&#xA;The project type is not supported by this installation.">
+</Event><Event ErrorLevel="2" Project="UnitTests.WP8" Source="UnitTests\UnitTests.WP8.csproj" Description="The project file 'C:\Documents and Settings\Suresh\My Documents\Visual Studio 2010\Projects\WebApplication1\AutoMapper\AutoMapper-develop\src\UnitTests\UnitTests.WP8.csproj' cannot be opened.&#xA;&#xA;The project type is not supported by this installation.">
+</Event><Event ErrorLevel="0" Project="" Source="AutoMapper.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="AutoMapper.sln" Description="Converted">
+</Event></UpgradeLog>

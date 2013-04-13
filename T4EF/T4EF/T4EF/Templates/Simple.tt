@@ -1,0 +1,20 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".txt" #>
+<#@ assembly name="System.Core.dll" #>
+<#@ import namespace="System.Linq" #>
+
+<# /* System.Diagnostics.Debugger.Launch(); */ #>
+
+This content was generated from a template
+in the year <#= DateTime.Now.Year #>
+
+Results:
+<#= SumNumbers(1,2,3) #>
+<#= SumNumbers(4,5,6,7) #>
+
+<#+
+	int SumNumbers(params int[] numbers)
+	{
+		return numbers.Sum();
+	}
+#>
