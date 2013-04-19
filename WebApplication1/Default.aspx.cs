@@ -9,6 +9,8 @@ using System.IO;
 using System.Web.Services;
 using System.Threading;
 using Services;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace WebApplication1
 {
@@ -20,13 +22,44 @@ namespace WebApplication1
         byte[] imageBytes = null;
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            //RegisterClientScript();
+            ErrorLabel.Text = String.Empty;
         }
 
         public void OnClickGetDLIBookButton(object sender, EventArgs e)
         {
             Thread downloadThread = new Thread(DownloadAndConvertToPDF);
             downloadThread.Start();
+            RegisterClientScript();
+        }
+
+        private void RegisterClientScript()
+        {
+            //Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "SomeThing", "var downloadCountIntervalID = setInterval(function () { UpdateDownloadCount(); }, 5000);", true);
+            String csname1 = "PopupScript";
+            Type cstype = this.GetType();
+
+            // Get a ClientScriptManager reference from the Page class.
+            ClientScriptManager cs = Page.ClientScript;
+
+            // Check to see if the startup script is already registered.
+            if (!cs.IsStartupScriptRegistered(cstype, csname1))
+            {
+                String cstext1 = "var downloadCountIntervalID = setInterval(function () { UpdateDownloadCount(); }, 5000);";
+                cs.RegisterStartupScript(cstype, csname1, cstext1, true);
+                //ScriptManager.RegisterStartupScript(this,cstype, csname1, cstext1, true);
+            }
+        }
+
+        public void OnClickTestPageMethodButton(object sender, EventArgs e)
+        {
+            
+        }
+
+        private class RequestManager
+        {
+            public Uri Uri { get; set; }
+            public int pageNum { get; set; }
         }
 
         public void DownloadAndConvertToPDF()
@@ -43,14 +76,65 @@ namespace WebApplication1
                 bookService.GetBook_DetailByURL(baseUrl, out bookID, out pageNumber);
                 bookID = (bookID == 0) ? bookService.GetNextBookID() : bookID;
                 pageNumber = (pageNumber == 0) ? bookService.GetNextPageNumber(bookID) : pageNumber;
+                List<RequestManager> requests = new List<RequestManager>();
                 for (pageNumbnerBeingDownloaded = startPage; pageNumbnerBeingDownloaded < endPage; pageNumbnerBeingDownloaded++)
                 {
+                    
+                    DownloadingPageNumberLabel.Text = pageNumbnerBeingDownloaded.ToString();
                     finalUrl = baseUrl + pageNumbnerBeingDownloaded.ToString("00000000") + ".tif";
-                    HttpWebRequest dLIRequest = WebRequest.Create(finalUrl) as HttpWebRequest;
-                    HttpWebResponse dLIResponse = dLIRequest.GetResponse() as HttpWebResponse;
-                    GetImageFromStream(dLIResponse, pageNumbnerBeingDownloaded);
+                    //HttpWebRequest dLIRequest = WebRequest.Create(finalUrl) as HttpWebRequest;
+                    //HttpWebResponse dLIResponse = dLIRequest.GetResponse() as HttpWebResponse;
+                    //GetImageFromStream(dLIResponse, pageNumbnerBeingDownloaded);
                     //bookService.SaveImageToBookContent(imageBytes, bookID, pageNumber);
+
+                    requests.Add(new RequestManager { Uri = new Uri(finalUrl), pageNum = pageNumbnerBeingDownloaded });
+
+                    if (pageNumbnerBeingDownloaded % 5 == 0)
+                    {
+                        try
+                        {
+                            //uris.Add(new Uri("http://www.google.fr"));
+                            //uris.Add(new Uri("http://www.bing.com"));
+
+                            List<Uri> uris = requests.Select(request => request.Uri).ToList();
+                            Parallel.ForEach(uris, u =>
+                            {
+                                //pageNum = pageNumbnerBeingDownloaded - pageNum;
+                                int pageNumToSaveImageInto = requests.Where(request => request.Uri.AbsoluteUri == u.AbsoluteUri).First().pageNum;
+                                try
+                                {
+                                    WebRequest webR = HttpWebRequest.Create(u);
+                                    HttpWebResponse webResponse = webR.GetResponse() as HttpWebResponse;
+                                    //Thread t = new Thread(new ParameterizedThreadStart(GetImageFromStream));
+                                    //t.Start(webResponse, requests.Where(request => request.Uri.AbsoluteUri == u.AbsoluteUri).First().pageNum);
+
+                                    
+                                    Thread myNewThread = new Thread(() => GetImageFromStream(webResponse, pageNumToSaveImageInto));
+                                    myNewThread.Start();
+                                }
+                                catch(Exception ex)
+                                {
+                                    ErrorLabel.Text = "Error while downloading pagenumber - " + pageNumToSaveImageInto  + Environment.NewLine + "Error Message is : " + Environment.NewLine + ex.Message ;
+                                }
+                                
+                                //GetImageFromStream(webResponse, requests.Where(request => request.Uri.AbsoluteUri == u.AbsoluteUri).First().pageNum);
+                                //pageNum--;
+                                //bookService.SaveImageToBookContent(imageBytes, bookID, pageNumber);
+                            });
+                        }
+                        catch (AggregateException exc)
+                        {
+                            exc.InnerExceptions.ToList().ForEach(e =>
+                            {
+                                Console.WriteLine(e.Message);
+                            });
+                        }
+                        requests = new List<RequestManager>();
+                    }
+
                 }
+                pageNumbnerBeingDownloaded = 0;
+                endPage = 0;
             }
             //CreatePDFFile(pageCount);
         }

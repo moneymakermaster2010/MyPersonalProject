@@ -2,17 +2,34 @@
     CodeBehind="Default.aspx.cs" Inherits="WebApplication1._Default" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
+    <script src="Scripts/jquery-1.4.1.js" type="text/javascript"></script>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
 <asp:ScriptManager ID="SManager" EnablePageMethods="true" runat="server"></asp:ScriptManager>
     <script type="text/javascript">
-        var downloadCountIntervalID;// = setInterval(function () { UpdateDownloadCount(); }, 5000);
+        //var downloadCountIntervalID ;//= setInterval(function () { UpdateDownloadCount(); }, 5000);
         function DownloadButtonClick() {
-            downloadCountIntervalID = setInterval(function () { UpdateDownloadCount(); }, 1000);
+                //downloadCountIntervalID = setInterval(function () { UpdateDownloadCount(); }, 5000);
         }
 
         function UpdateDownloadCount() {
-            PageMethods.UpdateDownloadCount(onSuccess, onFailure);
+            //PageMethods.UpdateDownloadCount(onSuccess, onFailure, "Context");
+            $.ajax({
+                type: "POST",
+                url: "Default.aspx/UpdateDownloadCount",
+                data: "{}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.d == "null") {
+                        clearInterval(downloadCountIntervalID);
+                    }
+                    else {
+                        document.getElementById('MainContent_DownloadingPageNumberLabel').innerText = msg.d;
+                    }
+                    // Do something interesting here.
+                }
+            });
         }
 
         function onSuccess(result) {
@@ -46,7 +63,7 @@
         </div>
         <br />
         <asp:Button ID="GetDLIBookButton" Text="Download" OnClientClick = "DownloadButtonClick()" OnClick="OnClickGetDLIBookButton" runat="server" />
-        Downloading Page <asp:Label ID="DownloadingPageNumberLabel" runat="server"></asp:Label> of 
+        Downloading Page <asp:Label ID="DownloadingPageNumberLabel" runat="server">&nbsp;</asp:Label> of 
         <asp:Label ID="ToatalPageNumberLabel" runat="server"></asp:Label>
         To learn more about ASP.NET visit <a href="http://www.asp.net" title="ASP.NET Website">www.asp.net</a>.
     </p>
@@ -54,4 +71,9 @@
         You can also find <a href="http://go.microsoft.com/fwlink/?LinkID=152368&amp;clcid=0x409"
             title="MSDN ASP.NET Docs">documentation on ASP.NET at MSDN</a>.
     </p>
+    
+    <br />
+    <br />
+    <asp:Label Text="" ID="ErrorLabel" runat="server" />
+     <%--OnClick="OnClickTestPageMethodButton"--%>
 </asp:Content>
