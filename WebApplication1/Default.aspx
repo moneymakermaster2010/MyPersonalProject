@@ -3,17 +3,18 @@
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
     <script src="Scripts/jquery-1.4.1.js" type="text/javascript"></script>
+    <style type="text/css">
+        .pageStatus
+        {
+            padding-top: 5px;
+            width:20%;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
 <asp:ScriptManager ID="SManager" EnablePageMethods="true" runat="server"></asp:ScriptManager>
     <script type="text/javascript">
-        //var downloadCountIntervalID ;//= setInterval(function () { UpdateDownloadCount(); }, 5000);
-        function DownloadButtonClick() {
-                //downloadCountIntervalID = setInterval(function () { UpdateDownloadCount(); }, 5000);
-        }
-
         function UpdateDownloadCount() {
-            //PageMethods.UpdateDownloadCount(onSuccess, onFailure, "Context");
             $.ajax({
                 type: "POST",
                 url: "Default.aspx/UpdateDownloadCount",
@@ -21,28 +22,19 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (msg) {
-                    if (msg.d == "null") {
-                        clearInterval(downloadCountIntervalID);
+                    if (msg.d) {
+                        for (var i = 0; i < msg.d.length; i++ ) {
+                            var elementWithStatus = msg.d[i].split(",");
+                            var elementsStatus = document.getElementById(elementWithStatus[0]);
+                            elementsStatus.innerHTML = elementWithStatus[1];
+                        }
                     }
                     else {
-                        document.getElementById('MainContent_DownloadingPageNumberLabel').innerText = msg.d;
+                        document.getElementById('MainContent_TotalStatusLabel').innerHTML = "Processing Completed";
+                        clearInterval(downloadCountIntervalID);
                     }
-                    // Do something interesting here.
                 }
             });
-        }
-
-        function onSuccess(result) {
-            if (result == "null") {
-                clearInterval(downloadCountIntervalID);
-            }
-            else {
-                document.getElementById('MainContent_DownloadingPageNumberLabel').innerHtml = result;
-            }
-        }
-
-        function onFailure(error) {
-
         }
     </script>
     <h2>
@@ -62,10 +54,15 @@
             </div>
         </div>
         <br />
-        <asp:Button ID="GetDLIBookButton" Text="Download" OnClientClick = "DownloadButtonClick()" OnClick="OnClickGetDLIBookButton" runat="server" />
-        Downloading Page <asp:Label ID="DownloadingPageNumberLabel" runat="server">&nbsp;</asp:Label> of 
-        <asp:Label ID="ToatalPageNumberLabel" runat="server"></asp:Label>
-        To learn more about ASP.NET visit <a href="http://www.asp.net" title="ASP.NET Website">www.asp.net</a>.
+        <asp:Button ID="GetDLIBookButton" Text="Download" OnClick="OnClickGetDLIBookButton" runat="server" />
+        <br />
+        <br />
+        <asp:PlaceHolder ID="DownoadingPagesPlaceHolder" runat="server">
+        
+        </asp:PlaceHolder>
+        <h2>
+        <asp:Label ID="TotalStatusLabel" Text="" runat="server" />
+        </h2>
     </p>
     <p>
         You can also find <a href="http://go.microsoft.com/fwlink/?LinkID=152368&amp;clcid=0x409"

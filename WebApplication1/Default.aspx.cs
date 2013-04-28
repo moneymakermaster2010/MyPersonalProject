@@ -11,6 +11,8 @@ using System.Threading;
 using Services;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.HtmlControls;
+using System.Configuration;
 
 namespace WebApplication1
 {
@@ -24,13 +26,33 @@ namespace WebApplication1
         {
             //RegisterClientScript();
             ErrorLabel.Text = String.Empty;
+            pageStatuses = new Dictionary<int, string>();
+        }
+
+        delegate void ThreadEndDelegate();
+
+        public static void Function1()
+        {
+
         }
 
         public void OnClickGetDLIBookButton(object sender, EventArgs e)
         {
+            TotalStatusLabel.Text = "Processsing Started";
             Thread downloadThread = new Thread(DownloadAndConvertToPDF);
+            
             downloadThread.Start();
             RegisterClientScript();
+            int startPageNum = Convert.ToInt32(StartPageDownloadTextBox.Text);
+            int endPageNum = Convert.ToInt32(EndPageDownloadTextBox.Text);
+            for(int i = startPageNum; i<endPageNum;i++)
+            {
+                HtmlGenericControl genericControl = new HtmlGenericControl("div");
+                genericControl.Attributes.Add("class", "pageStatus");
+                genericControl.InnerHtml = "<label>" + i + "</label> - <label id=\"" + i + "\">Pending</label>";
+                DownoadingPagesPlaceHolder.Controls.Add(genericControl);
+            }
+            
         }
 
         private void RegisterClientScript()
@@ -51,11 +73,6 @@ namespace WebApplication1
             }
         }
 
-        public void OnClickTestPageMethodButton(object sender, EventArgs e)
-        {
-            
-        }
-
         private class RequestManager
         {
             public Uri Uri { get; set; }
@@ -68,7 +85,6 @@ namespace WebApplication1
             String finalUrl = String.Empty;
             startPage = Convert.ToInt32(StartPageDownloadTextBox.Text);
             endPage = Convert.ToInt32(EndPageDownloadTextBox.Text);
-            ToatalPageNumberLabel.Text = endPage.ToString();
             using (BookService bookService = new BookService())
             {
                 int bookID;
@@ -79,8 +95,6 @@ namespace WebApplication1
                 List<RequestManager> requests = new List<RequestManager>();
                 for (pageNumbnerBeingDownloaded = startPage; pageNumbnerBeingDownloaded < endPage; pageNumbnerBeingDownloaded++)
                 {
-                    
-                    DownloadingPageNumberLabel.Text = pageNumbnerBeingDownloaded.ToString();
                     finalUrl = baseUrl + pageNumbnerBeingDownloaded.ToString("00000000") + ".tif";
                     //HttpWebRequest dLIRequest = WebRequest.Create(finalUrl) as HttpWebRequest;
                     //HttpWebResponse dLIResponse = dLIRequest.GetResponse() as HttpWebResponse;
@@ -89,7 +103,8 @@ namespace WebApplication1
 
                     requests.Add(new RequestManager { Uri = new Uri(finalUrl), pageNum = pageNumbnerBeingDownloaded });
 
-                    if (pageNumbnerBeingDownloaded % 5 == 0)
+                    int noOfSimultaneousRequests = Convert.ToInt32(ConfigurationManager.AppSettings["NoOfSimultaneousRequest"]);
+                    if (pageNumbnerBeingDownloaded % noOfSimultaneousRequests == 0)
                     {
                         try
                         {
@@ -110,6 +125,7 @@ namespace WebApplication1
 
                                     
                                     Thread myNewThread = new Thread(() => GetImageFromStream(webResponse, pageNumToSaveImageInto));
+                                    ThreadEndDelegate EndDelegate = Function1;
                                     myNewThread.Start();
                                 }
                                 catch(Exception ex)
@@ -133,17 +149,30 @@ namespace WebApplication1
                     }
 
                 }
-                pageNumbnerBeingDownloaded = 0;
-                endPage = 0;
             }
             //CreatePDFFile(pageCount);
         }
 
+        static int completedPageCount = -1;
         [WebMethod()]
-        public static String UpdateDownloadCount()
+        public static string[] UpdateDownloadCount()
         {
-            //DownloadingPageNumberLabel.Text = pageNumbnerBeingDownloaded.ToString();
-            return pageNumbnerBeingDownloaded >= endPage ? "null" : pageNumbnerBeingDownloaded.ToString();
+            //return pageNumbnerBeingDownloaded >= endPage ? "null" : pageNumbnerBeingDownloaded.ToString();
+            string[] rv = null;
+            if (pageStatuses != null)
+            {
+                rv = pageStatuses.Select(x => x.Key + "," + x.Value).ToArray();
+                completedPageCount += pageStatuses.Count;
+                pageStatuses.Clear();
+            }
+            if (completedPageCount == (endPage - startPage - 1))
+            {
+                pageStatuses = null;
+                pageNumbnerBeingDownloaded = 0;
+                endPage = 0;
+                completedPageCount = -1;
+            }
+            return rv;
         }
 
         private void GetImageFromStream(HttpWebResponse dLIResponse, int imageNumber)
@@ -161,6 +190,12 @@ namespace WebApplication1
 
             FileStream fs = new FileStream(saveLocation, FileMode.Create);
             BinaryWriter bw = new BinaryWriter(fs);
+            //int bookID;
+            //long pageNumber;
+            //bookService.GetBook_DetailByURL(baseUrl, out bookID, out pageNumber);
+            //bookID = (bookID == 0) ? bookService.GetNextBookID() : bookID;
+            //pageNumber = (pageNumber == 0) ? bookService.GetNextPageNumber(bookID) : pageNumber;
+            //new BookService().SaveImageToBookContent(imageBytes, bookID, pageNumber);
             try
             {
                 bw.Write(imageBytes);
@@ -170,6 +205,7 @@ namespace WebApplication1
                 fs.Close();
                 bw.Close();
             }
+            UpdateDownloadStatus(imageNumber);
         }
 
         private void CreatePDFFile(int pageCount)
@@ -200,6 +236,19 @@ namespace WebApplication1
                 }
             }
             document.Close(); 
+        }
+
+        static Dictionary<int, string> pageStatuses = new Dictionary<int, string>();
+        private void UpdateDownloadStatus(int pageNumDownloaded)
+        {
+            pageStatuses.Add(pageNumDownloaded, DownloadStatus.Completed.ToString());
+        }
+
+        private enum DownloadStatus
+        {
+            Downloading = 1,
+            Completed = 2,
+            ErrorDownloading = 3
         }
     }
 }

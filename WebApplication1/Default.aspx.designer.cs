@@ -58,22 +58,22 @@ namespace WebApplication1 {
         protected global::System.Web.UI.WebControls.Button GetDLIBookButton;
         
         /// <summary>
-        /// DownloadingPageNumberLabel control.
+        /// DownoadingPagesPlaceHolder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label DownloadingPageNumberLabel;
+        protected global::System.Web.UI.WebControls.PlaceHolder DownoadingPagesPlaceHolder;
         
         /// <summary>
-        /// ToatalPageNumberLabel control.
+        /// TotalStatusLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ToatalPageNumberLabel;
+        protected global::System.Web.UI.WebControls.Label TotalStatusLabel;
         
         /// <summary>
         /// ErrorLabel control.
